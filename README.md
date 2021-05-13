@@ -14,6 +14,6 @@ let res = pm.response.json();
 pm.environment.set('authToken', res.access_token)
 ```
 
-- Set a bearer token whenever we want to make a request after loging in
+- Set a bearer token whenever you want to make a request after loging in
 
 ![alt text](https://github.com/IsmaFuentes/jwt_api_boilerplate/blob/master/images/authorized.PNG)
