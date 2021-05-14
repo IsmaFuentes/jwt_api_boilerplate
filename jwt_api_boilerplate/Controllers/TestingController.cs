@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace jwt_api_boilerplate.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TestingController : Controller
@@ -17,7 +18,6 @@ namespace jwt_api_boilerplate.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult> AuthorizationTest()
         {
             // If you don't provide a jwt, a 401 unauthorized response will be sent

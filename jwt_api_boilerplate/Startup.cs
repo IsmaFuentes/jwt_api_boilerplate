@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace jwt_api_boilerplate
 {
@@ -28,7 +29,6 @@ namespace jwt_api_boilerplate
         public void ConfigureServices(IServiceCollection services)
         {
             // JWT SERVICE CONFIGURATION
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -40,6 +40,18 @@ namespace jwt_api_boilerplate
                     ValidIssuer = Configuration["JWT:Issuer"],
                     ValidAudience = Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecretKey"]))
+                };
+
+                // CUSTOM MESSAGE WHEN UNAUTHORIZED
+                options.Events = new JwtBearerEvents
+                {
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+
+                        context.Response.StatusCode = 401;
+                        await context.Response.WriteAsync("INVALID TOKEN");
+                    }
                 };
             });
 
