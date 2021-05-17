@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace jwt_api_boilerplate
 {
@@ -48,9 +49,9 @@ namespace jwt_api_boilerplate
                     OnChallenge = async context =>
                     {
                         context.HandleResponse();
-
                         context.Response.StatusCode = 401;
-                        await context.Response.WriteAsync("INVALID TOKEN");
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = 401, message = "INVALID TOKEN" }), Encoding.UTF8);
                     }
                 };
             });
