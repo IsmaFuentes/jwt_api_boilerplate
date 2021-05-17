@@ -21,7 +21,7 @@ namespace jwt_api_boilerplate.Controllers
         public async Task<ActionResult> AuthorizationTest()
         {
             // If you don't provide a jwt, a 401 unauthorized response will be sent
-            return Ok("Authorization success!!");
+            return Ok(new { status = this.Response.StatusCode, message = "AUTHORIZATION SUCCESS" });
         }
     }
 }
